@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title color="red">Equalizer-API</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./font-awesome-4.3.0/css/font-awesome.css" type="text/css">
+        <link rel="stylesheet" href="./index.css" type="text/css">
+
+
+    </head>
+    <body>
+        <h1>Equalizer API</h1>
+        <div class="">
+            <image src=""alt="cover"id="cover"/>
+        </div>
+        <label id="mus" for="music" class="fa fa-music"></label>
+        <p><i id="tt2" style="float: right!important;margin-top:-7px">0:00</i>
+        <i id="tt1">0:00</i>
+
+        <input type="file"style="display:none;" accept="audio/*" id="music">
+        <input type="range" id="sl" max="" min="0" value="0" step="0.01"><br/>
+        <div id="ctl">
+            <button class="fa fa-play" id="play"></button>
+            <button class="fa fa-pause" id="pause"></button>
+        </div>
+
+        <canvas id="colr" viewBox="0 0 200 200" style="display:none"></canvas>
+      <div class="container">
+        <fieldset>
+            <legend> <button id="open"class="fa fa-sliders"></button></legend>
+            <p><input type="checkbox" name="controls" id="crystal">&nbsp;Enable crytaliser</p>
+            <p><input type="checkbox" name="controls" id="loop">&nbsp;Enable audio loop</p>
+            <p><input type="checkbox" name="controls" id="bass">&nbsp;Enable BassBooster</p>
+            <p><input type="color" name="controls" value="#120EF1"id="color">&nbsp;Visual Color</p>
+            <p>
+                &nbsp; Select a visualiser
+<br>
+                <select id="visuals">
+                    <option value="">Select Visual</option>
+                    <option value="bars">Visual bars</option>
+                    <option value="spectrum">Spectrum</option>
+                </select>
+            </p>
+            <label>Increase frameRate&nbsp;<span id="tt">0.8</span></label>
+            <p><input type="range" step="0.0001" max="1" min="0.1"value="0.8"name="" id="frame"></p>
+            <label for="vol">Volume<i id="#vtxt"></i></label>
+            <input type="range" value="0.2" step="0.01" max="1" min="0" name="vol" id="vol">
+            <br>
+            <label for="panner">Audio Balance</label>
+            <input type="range" value="0" max="1" min="-1" step="0.01" name="panner" id="panner">
+
+        </fieldset>
+        <canvas id="cs"style="display:block"></canvas>
+
+        </div>
+        <script src="jquery-1.9.1.min.js"></script>
+        <script type="module">
+            import { JDroidFx } from "./Equalizer.js";
+            // import { $ } from "./jquery-1.9.1.min.js";
+
+            (function(){
+                var  musicfx = new JDroidFx({
+                loader:"#music",
+                canvaSelector:"#cs",
+                currentTime:"#tt1",
+                durationTime:"#tt2"
+            });
+            var settings = musicfx.getDefaults();
+                var loop = document.getElementById("loop");
+        console.log(settings)
+            loop.onchange = function(){
+                if(this.checked){
+                    // audioCrystaliser
+                settings.audioLoop = this.checked;
+            }else{
+                settings.audioLoop = this.checked;
+            }
+         }
+            var color = document.getElementById("color");
+            color.onchange = function () {
+                settings.visualColor = this.value;
+
+            }
+            musicfx.getAudio();
+            musicfx.getAudioVisuals({options:"#visuals"});
+            musicfx.getTrackerUpdate("#sl");
+            musicfx.getControlButtons({play:"#play", pause:"#pause"});
+            musicfx.getAudioBassBoost({bassBoostSelector:"#bass"});
+            musicfx.getCrystalizer({crystalizer:"#crystal"});
+            musicfx.getFrameRate({frameRateSelector:"#frame"});
+            musicfx.getVolume({vol:"#vol"});
+            musicfx.getAudioBalance({panner:"#panner"});
+            musicfx.getColorPicker({canvas:"#colr",image:"#cover"});
+
+
+
+})();
+jQuery(document).ready(function($){
+  $("#pause").hide();
+  $("#play").click(function(){
+      $(this).hide();
+      $("#pause").show();
+  });
+
+  $("#pause").click(function(){
+      $(this).hide();
+      $("#play").show();
+  });
+  $("#open").click(function(){
+      $("fieldset").addClass("active");
+      $(".container").addClass("active");
+      // alert("click");
+  });
+});
+        </script>
+    </body>
+</html>

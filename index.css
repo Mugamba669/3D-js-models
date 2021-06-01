@@ -1,0 +1,134 @@
+/* @import '../../jplayer/tools/font-awesome-4.3.0/css/font-awesome.css'; */
+#cs{
+    position: absolute;
+    top: 70%;
+
+    width:95%;
+    z-index: -7!important;
+    height: 25%;
+    background:rgb(3, 3, 2)
+}
+/* .container.active{
+    margin: 0;
+    padding: 0;
+    position:fixed;
+    left: 0;
+    background: rgba(0,0,0,0.5);
+    width:100%;
+    top:0;
+    height: 100vh;
+} */
+fieldset{
+     position:absolute;
+    top: 15%;
+    left:30%;
+    /* padding:10px; */
+    /* display: flex;
+    flex-direction: column; */
+    background-color: white;
+    /* color: ; */
+    /* justify-content: center; */
+    /* margin: 25px; */
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    box-shadow: inset 0px 0px 10px 0px rgb(130, 228, 130),
+                0px 0px 10px 0px #000;
+    height: 200px;
+    width: 300px;
+    transition:0.3s ease-in-out;
+    overflow:scroll;
+    z-index:7!important;
+}
+fieldset  #open{
+   font-size: 18px;
+    width: 40px;
+    pointer-events: none;
+    height: 40px;
+    transition:0.3s ease-in-out;
+    border-radius: 50%;
+    left: 200px;
+    /* z-index:10!important; */
+    background: rgb(17, 7, 75);
+    color: #fff;
+    cursor: pointer!important;
+
+}
+#sl{
+    /* position: absolute;
+    top: 25%; */
+    -webkit-appearance: none;
+    background: #000;
+    left: 0;
+    width: 90%;
+    padding: 0px;
+    /* pointer-events: none; */
+    cursor: pointer!important;
+    outline: none;
+    height: 1px;
+}
+fieldset.active {
+    top: 90%;
+    width: 70%;
+    height: 300px;
+}
+#sl::-webkit-slider-thumb{
+    cursor: pointer!important;
+    -webkit-appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: darkgoldenrod;
+}
+h1{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font: bold 18px Arial;
+}
+input[type='range']{
+    cursor: pointer;
+}
+#play ,#pause{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    /* left: 200px; */
+    /* z-index:10!important; */
+    background: rgb(0,0,0);
+    color: #fff;
+    cursor: pointer;
+
+}
+#cover{
+    width: 260px;
+    height: 260px;
+    margin-left: 70px;
+    border-radius: 10px;
+    /* position: absolute; */
+}
+#mus{
+    position: fixed;
+    top: 10%;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    padding: 0;
+    font-size: 20px;
+    text-align: center;
+    cursor: pointer;
+    line-height: 45px;
+    color: #fff;
+    background:rgb(12, 2, 66)
+}
+#ctl{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 0;
+}
+#tt1 ,#tt2{
+    color: #fff;
+    background:#000;
+    padding:9px;
+    text-transform: lowercase;
+    font:lighter 15px Arial;
+    border-radius: 5px;
+}
