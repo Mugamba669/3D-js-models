@@ -13,6 +13,7 @@
     </head>
     <body>
         <h1>Equalizer API</h1>
+        <input type="file" webkitdirectory id="loader"accept="audio/*"/>
         <div class="">
             <image src=""alt="cover"id="cover"/>
         </div>
@@ -26,41 +27,18 @@
             <button class="fa fa-play" id="play"></button>
             <button class="fa fa-pause" id="pause"></button>
         </div>
-
+        <!-- <fieldset></fieldset> -->
         <canvas id="colr" viewBox="0 0 200 200" style="display:none"></canvas>
       <div class="container">
-        <fieldset>
-            <legend> <button id="open"class="fa fa-sliders"></button></legend>
-            <p><input type="checkbox" name="controls" id="crystal">&nbsp;Enable crytaliser</p>
-            <p><input type="checkbox" name="controls" id="loop">&nbsp;Enable audio loop</p>
-            <p><input type="checkbox" name="controls" id="bass">&nbsp;Enable BassBooster</p>
-            <p><input type="color" name="controls" value="#120EF1"id="color">&nbsp;Visual Color</p>
-            <p>
-                &nbsp; Select a visualiser
-<br>
-                <select id="visuals">
-                    <option value="">Select Visual</option>
-                    <option value="bars">Visual bars</option>
-                    <option value="spectrum">Spectrum</option>
-                </select>
-            </p>
-            <label>Increase frameRate&nbsp;<span id="tt">0.8</span></label>
-            <p><input type="range" step="0.0001" max="1" min="0.1"value="0.8"name="" id="frame"></p>
-            <label for="vol">Volume<i id="#vtxt"></i></label>
-            <input type="range" value="0.2" step="0.01" max="1" min="0" name="vol" id="vol">
-            <br>
-            <label for="panner">Audio Balance</label>
-            <input type="range" value="0" max="1" min="-1" step="0.01" name="panner" id="panner">
-
-        </fieldset>
         <canvas id="cs"style="display:block"></canvas>
 
         </div>
         <script src="jquery-1.9.1.min.js"></script>
+        <script src="./three.js-master/examples/js/libs/dat.gui.min.js"></script>
         <script type="module">
+            // import * as GUI from "./three.js-master/examples/js/libs/dat.gui.min.js"
             import { JDroidFx } from "./Equalizer.js";
-            // import { $ } from "./jquery-1.9.1.min.js";
-
+        var gui = new dat.GUI();
             (function(){
                 var  musicfx = new JDroidFx({
                 loader:"#music",
@@ -68,34 +46,34 @@
                 currentTime:"#tt1",
                 durationTime:"#tt2"
             });
-            var settings = musicfx.getDefaults();
-                var loop = document.getElementById("loop");
-        console.log(settings)
-            loop.onchange = function(){
-                if(this.checked){
-                    // audioCrystaliser
-                settings.audioLoop = this.checked;
-            }else{
-                settings.audioLoop = this.checked;
-            }
-         }
-            var color = document.getElementById("color");
-            color.onchange = function () {
-                settings.visualColor = this.value;
-
-            }
             musicfx.getAudio();
-            musicfx.getAudioVisuals({options:"#visuals"});
             musicfx.getTrackerUpdate("#sl");
             musicfx.getControlButtons({play:"#play", pause:"#pause"});
-            musicfx.getAudioBassBoost({bassBoostSelector:"#bass"});
-            musicfx.getCrystalizer({crystalizer:"#crystal"});
-            musicfx.getFrameRate({frameRateSelector:"#frame"});
-            musicfx.getVolume({vol:"#vol"});
-            musicfx.getAudioBalance({panner:"#panner"});
             musicfx.getColorPicker({canvas:"#colr",image:"#cover"});
+            musicfx.getPlaylist("#loader");
+            var settings = musicfx.getDefaults();
 
+let visualizers = ['select visual','bars','spectrum','vertical-bars'];
+let effets = ['Select-Effect','Echo','Auditorium','Scene','Small-Room','Stadium'];
+//  implementing 
+gui.addColor(musicfx,"visualColor").onChange(e => settings.visualColor = e);
+gui.add(musicfx,"volume",0,1).onChange(e => musicfx.getEQvolume(e));
+// console.log(settings.frames);
+gui.add(musicfx,"frameRate",0,1).onChange(e => musicfx.getGUIFrameRate(e));
+// balance 
+gui.add(musicfx,"balance",-1,1).onChange(e => musicfx.getEQBalance(e));
+gui.addFolder("Visualizers").add(musicfx,"visuals").options(visualizers).onChange(e => musicfx.getEQvisuals(e));
+// EQ settings
+var sets = gui.addFolder("Audio Settings");
+sets.add(musicfx,"Crystalizer").onChange(e => musicfx.getEQCrystalz(e));
+sets.add(musicfx,"Bassboast").onChange(e => musicfx.getEQbass(e));
+sets.add(musicfx,"AudioLoop").onChange(e => musicfx.enableAudioLoop(e));
+sets.add(musicfx,"Convolver").onChange(e => musicfx.enableSurround(e));
+sets.add(musicfx,"Limit").onChange(e => musicfx.getEQAudioLimit(e));
 
+ var rooms = gui.addFolder("Room Effects");
+ rooms.add(musicfx,"RoomEffects").onChange(e => musicfx.enableEffects(e));
+ rooms.add(musicfx,"RoomEffect").options(effets).onChange(e => musicfx.getEQEffects(e));          
 
 })();
 jQuery(document).ready(function($){
@@ -115,6 +93,7 @@ jQuery(document).ready(function($){
       // alert("click");
   });
 });
+
         </script>
     </body>
 </html>

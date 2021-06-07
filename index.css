@@ -6,7 +6,7 @@
     width:95%;
     z-index: -7!important;
     height: 25%;
-    background:rgb(3, 3, 2)
+    background:transparent;
 }
 /* .container.active{
     margin: 0;
@@ -131,4 +131,21 @@ input[type='range']{
     text-transform: lowercase;
     font:lighter 15px Arial;
     border-radius: 5px;
+}
+body{
+    height: 90vh;
+    border:2px solid rgb(195, 16, 211),
+                    greenyellow,
+                    rgb(224, 13, 13);
+    animation: color 3s infinite alternate;
+}
+
+@keyframes color{
+    0%{
+        filter:hue-rotate(0)
+    }
+    100%{
+        filter:hue-rotate(360);
+    }
+    
 }
